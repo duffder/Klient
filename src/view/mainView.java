@@ -3,21 +3,22 @@ package view;
 import java.util.Scanner;
 
 /**
- * Created by michaelfolkmann on 11/11/2016.
+ * Created by michaelfolkmann on 17/11/2016.
  */
-public class userView {
+public class mainView {
 
     Scanner input = new Scanner(System.in);
 
-    public void userMenu() {
+    public void mainMenu() {
 
-        int userMenu = 8;
+        int mainMenu = 8;
 
-        switch (userMenu) {
+        switch (mainMenu) {
             case 1:
-                System.out.println("Noget");
+                System.out.println("1: Login");
                 break;
             case 2:
+                System.out.println("2: Afslut program");
 
                 break;
             case 3:
@@ -30,7 +31,4 @@ public class userView {
 
         }
     }
-
-
-
 }

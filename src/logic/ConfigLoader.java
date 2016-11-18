@@ -19,6 +19,7 @@ public class ConfigLoader {
     public static String SERVER_PORT;
     public static String ENCRYPTION;
     public static String ENCRYPT_KEY;
+    public static String HASH_SALT;
 
     private static final ConfigLoader SINGLETON = new ConfigLoader();
 
