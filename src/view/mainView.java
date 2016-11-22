@@ -1,5 +1,7 @@
 package view;
 
+import logic.mainController;
+
 import java.util.Scanner;
 
 /**
@@ -9,16 +11,23 @@ public class mainView {
 
     Scanner input = new Scanner(System.in);
 
+
     public void mainMenu() {
+        mainController MainController = new mainController();
 
-        int mainMenu = 8;
 
-        switch (mainMenu) {
+        System.out.println("Main menu: ");
+        System.out.println("1: Login");
+        System.out.println("2: Afslut program");
+        int choice = input.nextInt();
+
+        switch (choice) {
             case 1:
-                System.out.println("1: Login");
+                MainController.Login();
+
                 break;
             case 2:
-                System.out.println("2: Afslut program");
+
 
                 break;
             case 3:

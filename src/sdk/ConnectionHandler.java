@@ -2,16 +2,15 @@ package sdk;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import sdk.connection.Connection;
 import sdk.connection.ResponseCallback;
 import sdk.connection.ResponseParser;
-import sdk.models.AccessService;
-import sdk.models.Course;
-import sdk.models.Lectures;
-import sdk.models.User;
+import sdk.models.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -32,6 +31,65 @@ public class ConnectionHandler {
         this.accessService = new AccessService();
     }
 
+    public void deleteReview(int UserId, int lectureID, final ResponseCallback<Boolean> responseCallback) {
+
+
+        HttpDelete deleteRquest = new HttpDelete(Connection.serverURL + "/review/" + UserId + lectureID);
+        deleteRquest.setHeader("Content-Type", "application/json");
+
+        connection.execute(deleteRquest, new ResponseParser() {
+            public void payload(String json) {
+                boolean ifDeleted = gson.fromJson(json, Boolean.class);
+                responseCallback.succes(ifDeleted);
+            }
+
+            public void error(int status) {
+                responseCallback.error(status);
+
+            }
+        });
+
+
+    }
+
+    public void addReview(Review review, final ResponseCallback<String> responseCallback ) {
+        HttpPost postRequest = new HttpPost(Connection.serverURL + "/student/review");
+
+
+        try {
+            StringEntity reviewObject = new StringEntity(this.gson.toJson(review));
+            postRequest.setEntity(reviewObject);
+            postRequest.setHeader("Content-Type", "application/json");
+
+            this.connection.execute(postRequest, new ResponseParser() {
+                public void payload(String json) {
+                    String addedReview = gson.fromJson(json, String.class);
+                    responseCallback.succes(addedReview);
+                }
+
+                public void error(int status) {
+                    responseCallback.error(status);
+                }
+            });
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void getReview(int courseId, final ResponseCallback<ArrayList<Review>> responseCallback) {
+        HttpGet getRquest = new HttpGet(Connection.serverURL + "/review/" + courseId);
+        this.connection.execute(getRquest, new ResponseParser() {
+            public void payload(String json) {
+                ArrayList<Review> reviews = gson.fromJson(json, new TypeToken<ArrayList<Review>>(){}.getType());
+                responseCallback.succes(reviews);
+            }
+
+            public void error(int status) {
+                responseCallback.error(status);
+
+            }
+        });
+    }
     public void authLogin(String cbsMail, String password , final ResponseCallback<User> responseCallback){
         HttpPost postRequest = new HttpPost(Connection.serverURL + "/login");
         final User userInfo = new User();
@@ -64,9 +122,10 @@ public class ConnectionHandler {
     }
 
 
-    public void getCourses(String userId, final ResponseCallback<ArrayList<Course>> responseCallback) {
-        HttpGet getRequest = new HttpGet(Connection.serverURL + "/review/" + userId);
+    public void getCourses(int userId, final ResponseCallback<ArrayList<Course>> responseCallback) {
+        HttpGet getRequest = new HttpGet(Connection.serverURL + "/course/" + userId);
         this.connection.execute(getRequest, new ResponseParser() {
+
             public void payload(String json) {
                 ArrayList<Course> courses = gson.fromJson(json, new TypeToken<ArrayList<Course>>(){}.getType());
                 responseCallback.succes(courses);

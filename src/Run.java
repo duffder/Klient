@@ -1,6 +1,8 @@
 
 import com.google.gson.Gson;
 
+import logic.ConfigLoader;
+import logic.mainController;
 import sdk.ConnectionHandler;
 import sdk.connection.ResponseCallback;
 import sdk.models.AccessService;
@@ -23,33 +25,13 @@ public class Run {
     public static void main(String[] args) {
 
         ConnectionHandler connectionHandler = new ConnectionHandler();
-
-        String password = "tet";
-        String securedPassword;
-        securedPassword = Digester.hashWithSalt(password);
-
-
-        connectionHandler.authLogin("test", securedPassword, new ResponseCallback<User>() {
-            public void succes(User data) {
-                try {
-                    if (data == null){
-                        System.out.println("Wrong login or password!");
-                    }else {
-                        System.out.println("Virker");
-                        System.out.println(data.getId());
-                    }
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                }
+        ConfigLoader.parseConfig();
+        mainController MainController = new mainController();
+        System.out.println("Welcome to the rating system!");
+        MainController.Controller();
 
 
-            }
 
-            public void error(int status) {
-                System.out.println("virker ikke");
-
-            }
-        });
 
 
 /*

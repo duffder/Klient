@@ -5,6 +5,7 @@ package sdk.models;
  */
 public class Course {
 
+
     private String id;
     private String code;
     private String displaytext;

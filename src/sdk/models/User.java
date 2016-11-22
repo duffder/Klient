@@ -6,6 +6,7 @@ package sdk.models;
 public class User {
     private int id;
     private String cbsMail, password, type;
+    private User user;
 
     public User(int id, String cbsMail, String password, String type) {
         this.id = id;
@@ -14,9 +15,9 @@ public class User {
         this.type = type;
     }
 
-    public User(){
+public User(){
 
-    }
+}
 
     public int getId() {
         return id;
@@ -48,5 +49,13 @@ public class User {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
