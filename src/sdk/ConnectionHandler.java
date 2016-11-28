@@ -31,25 +31,31 @@ public class ConnectionHandler {
         this.accessService = new AccessService();
     }
 
-    public void deleteReview(int UserId, int lectureID, final ResponseCallback<Boolean> responseCallback) {
+    public void updateReview(Review review, final ResponseCallback<Boolean> responseCallback) {
 
+        try {
+            HttpPut putRequest = new HttpPut(Connection.serverURL + "/student/review/");
 
-        HttpDelete deleteRquest = new HttpDelete(Connection.serverURL + "/review/" + UserId + lectureID);
-        deleteRquest.setHeader("Content-Type", "application/json");
+            putRequest.addHeader("Content-Type", "application/json");
 
-        connection.execute(deleteRquest, new ResponseParser() {
-            public void payload(String json) {
-                boolean ifDeleted = gson.fromJson(json, Boolean.class);
-                responseCallback.succes(ifDeleted);
-            }
+            StringEntity jsonReview = new StringEntity(gson.toJson(review));
+            putRequest.setEntity(jsonReview);
 
-            public void error(int status) {
-                responseCallback.error(status);
+            connection.execute(putRequest, new ResponseParser() {
+                public void payload(String json) {
+                    Boolean isDeleted = gson.fromJson(json, Boolean.class);
+                    responseCallback.succes(isDeleted);
 
-            }
-        });
+                }
 
+                public void error(int status) {
+                    responseCallback.error(status);
 
+                }
+            });
+        }catch (Exception e){
+
+        }
     }
 
     public void addReview(Review review, final ResponseCallback<String> responseCallback ) {

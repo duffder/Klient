@@ -6,10 +6,12 @@ import sdk.connection.ResponseCallback;
 import sdk.models.AccessService;
 import sdk.models.User;
 import sercurity.Digester;
+
+import view.adminView;
 import view.mainView;
 import view.studentView;
 
-import java.security.PublicKey;
+
 import java.util.Scanner;
 
 /**
@@ -18,10 +20,13 @@ import java.util.Scanner;
 public class mainController {
     Scanner input = new Scanner(System.in);
     ConnectionHandler connectionHandler = new ConnectionHandler();
+    mainView view = new mainView();
+    adminView AdminView = new adminView();
+
 
 
     public void Controller(){
-        mainView view = new mainView();
+
 
         view.mainMenu();
 
@@ -45,13 +50,21 @@ public class mainController {
                 try {
                     if (data == null){
                         System.out.println("Wrong email or password!");
-                    }else {
+                        view.mainMenu();
+                    }else if (data.getType().equals("student")){
                         System.out.println("Login information: ");
                         System.out.println("ID: " + data.getId());
                         System.out.println("Type: " + data.getType());
                         System.out.println();
                         StudentView.studentMenu();
+                    }else if (data.getType().equals("admin")) {
+                        System.out.println("Login information: ");
+                        System.out.println("ID: " + data.getId());
+                        System.out.println("Type: " + data.getType());
+                        System.out.println();
+                        AdminView.adminMenu();
                     }
+
                 }catch (NullPointerException e){
                     e.printStackTrace();
                 }

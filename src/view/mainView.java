@@ -30,9 +30,7 @@ public class mainView {
 
 
                 break;
-            case 3:
 
-                break;
 
             default:
 

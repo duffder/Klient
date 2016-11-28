@@ -1,5 +1,6 @@
 package logic;
 
+import com.sun.org.apache.regexp.internal.RE;
 import sdk.ConnectionHandler;
 import sdk.connection.ResponseCallback;
 import sdk.models.AccessService;
@@ -19,25 +20,33 @@ public class studentController {
     studentView StudentView = new studentView();
     ConnectionHandler connectionHandler = new ConnectionHandler();
 
+    //Do not work perfectly due to server complications.
     public void deleteReview(){
-        int userID = AccessService.getAccessToken().getId();
-        System.out.println("Lecture ID: ");
-        final int lectureID = input.nextInt();
+        Review review = new Review();
 
-        connectionHandler.deleteReview(userID, lectureID, new ResponseCallback<Boolean>() {
+        System.out.println("Lecture ID: ");
+        int lectureID = input.nextInt();
+
+        review.setId(lectureID);
+        review.setUserId(AccessService.getAccessToken().getId());
+        System.out.println(review.getUserId());
+
+        connectionHandler.updateReview(review, new ResponseCallback<Boolean>() {
             public void succes(Boolean data) {
-                if (data == true) {
-                    System.out.println("You have deleted review: " + lectureID);
-                }else {
-                    System.out.println("Wrong lectureID!");
+                if (data = true) {
+                    System.out.println("Review is deleted");
                 }
                 StudentView.studentMenu();
+
             }
 
             public void error(int status) {
+                System.out.println(status);
 
             }
         });
+
+
     }
 
     public void addReview(){
@@ -87,7 +96,7 @@ public class studentController {
                         System.out.println("Comment: " + allReview.getComment());
                     }
                 }catch (Exception e){
-                    System.out.println("Wrong review ID!");
+                    System.out.println("Not reviewed!");
                 }
                 StudentView.studentMenu();
             }
