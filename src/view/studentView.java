@@ -21,9 +21,8 @@ public class studentView {
         System.out.println("1: Rate lecture");
         System.out.println("2: Show reviews");
         System.out.println("3: Show lectures");
-        System.out.println("4: Show participating");
-        System.out.println("5: Delete own comment");
-        System.out.println("6: Logout");
+        System.out.println("4: Delete own comment");
+        System.out.println("5: Logout");
 
         int choice = input.nextInt();
 
@@ -38,12 +37,9 @@ public class studentView {
                 studentController.getCourses();
                 break;
             case 4:
-
-                break;
-            case 5:
                 studentController.deleteReview();
                 break;
-            case 6:
+            case 5:
                 System.out.println("Logging out!");
                 MainView.mainMenu();
                 MainController.logout();

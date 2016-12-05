@@ -12,7 +12,7 @@ import java.security.MessageDigest;
  */
 public class Digester {
     private final static String SALT = ConfigLoader.HASH_SALT;
-    private final static String KEY = "40674244454045cb9a70040a30e1c007";
+    private final static String KEY = ConfigLoader.ENCRYPT_KEY;
     private static MessageDigest digester;
 
     //hashing with MD5
@@ -58,7 +58,7 @@ public class Digester {
     public static String encrypt(String s) {
         String encrypted_string = s;
 
-        if (ConfigLoader.ENCRYPTION.equals("TRUE")) {
+        if (ConfigLoader.ENCRYPTION.equals(ConfigLoader.ENCRYPTION)) {
             encrypted_string = base64Encode(xorWithKey(encrypted_string.getBytes(), KEY.getBytes()));
 
         }
@@ -69,7 +69,7 @@ public class Digester {
     public static String decrypt(String s) {
         String decrypted_string = s;
 
-        if (ConfigLoader.ENCRYPTION.equals("TRUE")) {
+        if (ConfigLoader.ENCRYPTION.equals(ConfigLoader.ENCRYPTION)) {
             decrypted_string = new String(xorWithKey(base64Decode(s), KEY.getBytes()));
         }
         return decrypted_string;

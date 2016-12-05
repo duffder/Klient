@@ -11,6 +11,7 @@ import sdk.connection.Connection;
 import sdk.connection.ResponseCallback;
 import sdk.connection.ResponseParser;
 import sdk.models.*;
+import sercurity.Digester;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -43,7 +44,8 @@ public class ConnectionHandler {
 
             connection.execute(putRequest, new ResponseParser() {
                 public void payload(String json) {
-                    Boolean isDeleted = gson.fromJson(json, Boolean.class);
+                    String decrypted = Digester.decrypt(json);
+                    Boolean isDeleted = gson.fromJson(decrypted, Boolean.class);
                     responseCallback.succes(isDeleted);
 
                 }
@@ -69,7 +71,8 @@ public class ConnectionHandler {
 
             this.connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
-                    String addedReview = gson.fromJson(json, String.class);
+                    String decrypted = Digester.decrypt(json);
+                    String addedReview = gson.fromJson(decrypted, String.class);
                     responseCallback.succes(addedReview);
                 }
 
@@ -86,7 +89,8 @@ public class ConnectionHandler {
         HttpGet getRquest = new HttpGet(Connection.serverURL + "/review/" + courseId);
         this.connection.execute(getRquest, new ResponseParser() {
             public void payload(String json) {
-                ArrayList<Review> reviews = gson.fromJson(json, new TypeToken<ArrayList<Review>>(){}.getType());
+                String decrypted = Digester.decrypt(json);
+                ArrayList<Review> reviews = gson.fromJson(decrypted, new TypeToken<ArrayList<Review>>(){}.getType());
                 responseCallback.succes(reviews);
             }
 
@@ -99,8 +103,10 @@ public class ConnectionHandler {
     public void authLogin(String cbsMail, String password , final ResponseCallback<User> responseCallback){
         HttpPost postRequest = new HttpPost(Connection.serverURL + "/login");
         final User userInfo = new User();
-        userInfo.setCbsMail(cbsMail);
-        userInfo.setPassword(password);
+        String encryptedMail = Digester.encrypt(cbsMail);
+        userInfo.setCbsMail(encryptedMail);
+        String encryptedPassword = Digester.encrypt(password);
+        userInfo.setPassword(encryptedPassword);
 
         try {
             StringEntity loginInfo = new StringEntity(this.gson.toJson(userInfo));
@@ -109,7 +115,8 @@ public class ConnectionHandler {
 
             this.connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
-                    User userToken = gson.fromJson(json, User.class);
+                    String decrypted = Digester.decrypt(json);
+                    User userToken = gson.fromJson(decrypted, User.class);
                     AccessService.setAccessToken(userToken);
                     responseCallback.succes(userToken);
                 }
@@ -133,7 +140,8 @@ public class ConnectionHandler {
         this.connection.execute(getRequest, new ResponseParser() {
 
             public void payload(String json) {
-                ArrayList<Course> courses = gson.fromJson(json, new TypeToken<ArrayList<Course>>(){}.getType());
+                String decrypted = Digester.decrypt(json);
+                ArrayList<Course> courses = gson.fromJson(decrypted, new TypeToken<ArrayList<Course>>(){}.getType());
                 responseCallback.succes(courses);
             }
 
@@ -148,7 +156,8 @@ public class ConnectionHandler {
         HttpGet getRequest = new HttpGet(Connection.serverURL + "/lecture/" + code);
         this.connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
-                ArrayList<Lectures> lectures = gson.fromJson(json, new TypeToken<ArrayList<Lectures>>(){}.getType());
+                String decrypted = Digester.decrypt(json);
+                ArrayList<Lectures> lectures = gson.fromJson(decrypted, new TypeToken<ArrayList<Lectures>>(){}.getType());
                 responseCallback.succes(lectures);
             }
 

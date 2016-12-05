@@ -74,6 +74,7 @@ public class mainController {
 
             public void error(int status) {
                 System.out.println("virker ikke");
+                view.mainMenu();
 
             }
         });

@@ -95,13 +95,15 @@ public class studentController {
                         System.out.println("Rating: " + allReview.getRating());
                         System.out.println("Comment: " + allReview.getComment());
                     }
-                }catch (Exception e){
+                }catch (NullPointerException e){
                     System.out.println("Not reviewed!");
                 }
                 StudentView.studentMenu();
             }
 
             public void error(int status) {
+                System.out.println("No review");
+                StudentView.studentMenu();
 
             }
         });

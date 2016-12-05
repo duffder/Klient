@@ -6,6 +6,9 @@ package sdk.models;
 public class AccessService {
     private static User accessToken;
 
+    //Denne klasse gør det muligt at sætte et Access token, sådan at man kan hente
+    //informationer om den bruger, som er logget ind på serveren.
+
     public static void setAccessToken(User token){
 
         accessToken = token;
