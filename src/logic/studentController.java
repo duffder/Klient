@@ -49,6 +49,9 @@ public class studentController {
 
     }
 
+    /*addReviews handles the process of adding a review to the system.
+    * It uses the users AccessToken to locale the user ID.*/
+
     public void addReview(){
         Review review = new Review();
         review.setUserId(AccessService.getAccessToken().getId());
@@ -157,7 +160,6 @@ public class studentController {
             }
         });
     }
-
 
 
 }

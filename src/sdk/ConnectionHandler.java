@@ -32,6 +32,11 @@ public class ConnectionHandler {
         this.accessService = new AccessService();
     }
 
+    /*This class handles all the requests to the endpoints on the server.
+    * In general I use the responseCallback to send the gathered information which
+    * is then executed and handled in the payload method.
+    * */
+
     public void updateReview(Review review, final ResponseCallback<Boolean> responseCallback) {
 
         try {
@@ -100,6 +105,9 @@ public class ConnectionHandler {
             }
         });
     }
+
+    //Importent method which also handles the hashed password and aswell encrypt it
+    //before send to the server.
     public void authLogin(String cbsMail, String password , final ResponseCallback<User> responseCallback){
         HttpPost postRequest = new HttpPost(Connection.serverURL + "/login");
         final User userInfo = new User();

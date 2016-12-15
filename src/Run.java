@@ -26,6 +26,10 @@ public class Run {
 
     public static void main(String[] args) {
 
+
+        /*
+        * First we initialize the Config file and then controller takes over
+        * */
         ConfigLoader.parseConfig();
         mainController MainController = new mainController();
         System.out.println("Welcome to the rating system!");

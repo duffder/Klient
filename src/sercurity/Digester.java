@@ -15,6 +15,12 @@ public class Digester {
     private final static String KEY = ConfigLoader.ENCRYPT_KEY;
     private static MessageDigest digester;
 
+    /*Importent class which handles the sercurity within the system.
+    * Importent things happening here is the hashing with salt
+    * and very importently the encrypt and decrypt methods that
+    * make life easy by just calling af method in here.
+    * */
+
     //hashing with MD5
     static {
         try {

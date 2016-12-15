@@ -17,8 +17,12 @@ import java.io.IOException;
  */
 public class Connection {
 
-    public static String serverURL = "http://localhost:5005/api";
+    public static String serverURL = "http://" + ConfigLoader.SERVER_ADDRESS + ":" + ConfigLoader.SERVER_PORT + "/api";
     private CloseableHttpClient httpClient;
+
+    /*This class handles all general connections to the server.
+    * It uses the ResponseParser interface, to parse the response.
+     * */
 
     public Connection() {
         this.httpClient = HttpClients.createDefault();
@@ -26,7 +30,7 @@ public class Connection {
 
     public void execute(HttpUriRequest uriRequest, final ResponseParser parser){
 
-        // Create a custom response handler
+        // Creates a custom response handler
         ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
             public String handleResponse(final HttpResponse response) throws IOException {

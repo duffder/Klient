@@ -32,7 +32,7 @@ public class mainController {
 
     }
 
-
+    /*Handles login for all types of users in the system.*/
     public void Login(){
         final studentView StudentView = new studentView();
         System.out.println("CBS-Email: ");

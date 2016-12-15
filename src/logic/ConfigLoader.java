@@ -31,6 +31,8 @@ public class ConfigLoader {
         parseConfig();
     }
 
+    /*Method that reads config.json and handles all importent key elements.
+    * */
     public static void parseConfig() {
         JsonParser jparser = new JsonParser();
         JsonReader jsonReader;
